@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  # API (FastAPI) + Static (portal/dashboard)
+  aml_api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: aml_api_dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./apps/api:/app/apps/api
+      - ./apps/portal:/app/apps/portal
+      - ./apps/dashboard:/app/apps/dashboard
+    environment:
+      - MODE=development
+      - SECRET_KEY=dev-secret-change-me

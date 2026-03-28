@@ -1,0 +1,345 @@
+JouiVisualizer - Tutorial
+=========================
+
+1. Que es
+---------
+
+JouiVisualizer es una app local para:
+
+- elegir un motor de generacion
+- cargar presets por motor
+- ajustar parametros con sliders e inputs numericos
+- previsualizar la pieza en 3D
+- importar STL o 3MF para inspeccion visual
+- exportar STL generado
+
+Motores incluidos actualmente:
+
+- pb
+- pb2
+- pb3
+- pb4
+- pb5
+- pb6
+- lampgen
+- lampgenv2
+- lampgenv3
+- oglgb
+- lgb2
+- lgb3
+- dlampgen
+- bayonet
+
+Motores excluidos:
+
+- todo lo que esta dentro de C:\nuncajamas\lampgen\planetgen
+
+
+2. Como arrancarlo
+------------------
+
+Abrir una terminal en:
+
+  C:\nuncajamas\JouiVisualizer
+
+Ejecutar:
+
+  python server.py
+
+Cuando levanta bien, muestra:
+
+  JouiVisualizer running at http://127.0.0.1:8765
+
+Despues abrir en el navegador:
+
+  http://127.0.0.1:8765
+
+
+3. Estructura de la interfaz
+----------------------------
+
+Barra lateral izquierda:
+
+- Generation Engine:
+  elige que .py o motor usa la generacion
+
+- Preset:
+  carga una base de parametros para ese motor
+
+- Generate Base:
+  elige automaticamente otro preset del motor actual
+
+- Mode:
+  aparece solo en motores que soportan solid / perforated
+
+- Close top:
+  aparece solo en motores que soportan cierre superior
+
+- Dome mode:
+  aparece solo en motores que soportan modo de domo
+
+- Reset:
+  vuelve al preset actual
+
+- Import STL / 3MF:
+  importa una malla externa para verla en el visor
+
+- Export STL:
+  exporta la geometria generada por el motor actual
+
+Parte superior del visualizador:
+
+- Parameters:
+  muestra grupos de controles desplegables
+
+Los grupos pueden variar segun el motor, por ejemplo:
+
+- Shape
+- Seam Engine
+- Skin
+- Perforated
+- Weave
+- Wire Mesh
+- Mount
+- Resolution
+
+
+4. Como usar motores y presets
+------------------------------
+
+Flujo recomendado:
+
+1. Elegir un motor en Generation Engine.
+2. Elegir un preset en Preset.
+3. Ajustar sliders o escribir valores manuales.
+4. Mirar el preview.
+5. Exportar STL cuando el resultado cierre.
+
+Importante:
+
+- cada motor tiene sus propios presets
+- no todos los motores muestran los mismos parametros
+- no todos los motores soportan solid / perforated
+- algunos motores estan orientados a shell
+- otros a tejido/lattice
+- otros a wire mesh
+- bayonet genera un cabezal tipo wire con encastre bayoneta
+
+
+5. Presets y estilo
+-------------------
+
+La app incluye presets generales y presets especificos por motor.
+
+Ejemplos de familias de presets:
+
+- tall_shell
+- lantern_bloom
+- braided_column
+- open_lattice
+- orbital_bulb
+- spiral_silk
+- airy_weave
+- cyclone_cage
+- cathedral_cage
+
+Tambien hay presets tipo malla abierta / rombo:
+
+- diamond_hourglass
+- green_diamond
+
+Esos presets estan cargados en los motores que mejor soportan ese look, especialmente:
+
+- pb3
+- pb4
+- pb5
+- pb6
+- oglgb
+- lgb2
+- lgb3
+- dlampgen
+- bayonet
+
+
+6. Como editar parametros
+------------------------
+
+Cada control tiene:
+
+- nombre del parametro
+- tooltip con explicacion
+- slider
+- caja numerica
+- pill con el valor actual
+
+Hay 2 maneras de editar:
+
+- arrastrando el slider
+- escribiendo un numero en la caja
+
+Regla actual:
+
+- el slider respeta min / max del backend
+- la caja numerica permite escribir valores fuera de ese rango
+- si el valor escrito supera el rango del slider, el valor se conserva igual
+- el slider queda visualmente en el borde mas cercano
+
+
+7. Como mover la vista
+---------------------
+
+Dentro del canvas:
+
+- click y arrastrar:
+  rota la camara
+
+- rueda del mouse:
+  zoom in / zoom out
+
+La vista usa proyeccion ortografica por defecto para que el modelo no se deforme tanto visualmente al inspeccionarlo.
+
+
+8. Importar STL o 3MF
+---------------------
+
+Boton:
+
+  Import STL / 3MF
+
+Formatos soportados:
+
+- .stl
+- .3mf
+
+Que pasa al importar:
+
+- la malla importada se muestra en el visor
+- sirve para inspeccion visual
+- no reemplaza el motor de generacion
+- cuando moves un control, el preview vuelve a generarse con el motor seleccionado
+
+
+9. Exportar STL
+---------------
+
+Boton:
+
+  Export STL
+
+Que hace:
+
+- genera STL con el motor activo
+- usa los parametros actuales
+- guarda el archivo en:
+
+  C:\nuncajamas\JouiVisualizer\exports
+
+Tambien aparece en la seccion Exports dentro de la app.
+
+
+10. Que hace cada motor a grandes rasgos
+----------------------------------------
+
+- pb:
+  costura continua simple
+
+- pb2:
+  doble familia de seams
+
+- pb3:
+  shell con solid / perforated
+
+- pb4:
+  como pb3, con close top
+
+- pb5:
+  como pb4, con dome top
+
+- pb6:
+  version mas completa de la rama PB
+
+- lampgen:
+  basket weave original
+
+- lampgenv2:
+  shell con costura continua mas uniforme
+
+- lampgenv3:
+  version refinada de la costura continua
+
+- oglgb / lgb2 / lgb3:
+  lattice woven con distintas variantes de trama
+
+- dlampgen:
+  wire diamonds con rombos reales
+
+- bayonet:
+  cuerpo wire + encastre bayoneta
+
+
+11. Archivos principales
+------------------------
+
+- C:\nuncajamas\JouiVisualizer\server.py
+  backend HTTP local, config de engines, presets, preview, import y export
+
+- C:\nuncajamas\JouiVisualizer\static\index.html
+  estructura de la interfaz
+
+- C:\nuncajamas\JouiVisualizer\static\app.js
+  controles, engine selector, render, import y preview
+
+- C:\nuncajamas\JouiVisualizer\static\style.css
+  estilos visuales
+
+- C:\nuncajamas\lampgen\
+  carpeta donde viven los motores Python
+
+
+12. Problemas comunes
+---------------------
+
+La pagina no refleja cambios:
+
+- hacer Ctrl+F5
+- cerrar y reabrir el navegador
+
+No aparecen sliders:
+
+- verificar que server.py siga corriendo
+- hacer recarga fuerte
+- probar cambiar de engine y volver
+
+El preview tarda:
+
+- bajar n_theta
+- bajar n_z
+- bajar rib_seg_per_pitch
+- bajar seg_per_rot en motores wire
+
+El resultado se rompe:
+
+- volver a un preset base
+- resetear
+- probar un preset del mismo motor antes de retocar a mano
+
+Import no funciona:
+
+- revisar que el archivo sea STL o 3MF valido
+
+Un motor no muestra Mode / Close top / Dome mode:
+
+- no es un error
+- esos controles solo aparecen en motores que los soportan
+
+
+13. Cierre
+----------
+
+Para detener la app en la terminal:
+
+  Ctrl+C
+
+Proyecto local:
+
+  C:\nuncajamas\JouiVisualizer

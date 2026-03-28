@@ -1,0 +1,10 @@
+# Ignorar archivos pesados para que la imagen sea rápida
+**/__pycache__
+**/*.stl
+**/*.3mf
+**/*.scad
+**/*.zip
+**/*.log
+**/*.png
+**/*.jpg
+**/*.pdf

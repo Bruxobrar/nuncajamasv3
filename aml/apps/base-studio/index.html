@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATLAS MULTIVERSAL | Base Studio</title>
+    <link rel="stylesheet" href="../dashboard/css/joui.css?v=4">
+    <link rel="stylesheet" href="css/base-studio.css?v=2">
+</head>
+<body>
+  <div class="shell baseShell">
+    <aside class="controls">
+      <div class="brand">
+        <p class="eyebrow">BASE_OP_01</p>
+        <h1>BASE STUDIO</h1>
+        <p class="subtle">Editor de bases inversas para el modelo confirmado.</p>
+        <button id="backToDashboardBtn" class="portalBtn" type="button">Volver al Dashboard</button>
+      </div>
+
+      <section class="panelCard">
+        <div class="panelHeader">
+          <h2>Modelo elegido</h2>
+          <p>Referencia activa para construir la base.</p>
+        </div>
+        <p id="selectedModelLine" class="status">Sin modelo confirmado.</p>
+        <p id="selectedMountLine" class="subtle"></p>
+        <p id="selectedFootprintLine" class="subtle"></p>
+        <p id="selectedFitLowerLine" class="subtle"></p>
+        <p id="selectedFitUpperLine" class="subtle"></p>
+      </section>
+
+      <section class="panelCard">
+        <div class="panelHeader">
+          <h2>Parametros de base</h2>
+          <p>Ajusta la base inversa sin tocar el STL del modelo.</p>
+        </div>
+        <label>
+          <span>Motor de base</span>
+          <select id="baseGeneratorSelect"></select>
+        </label>
+        <div id="baseControlGroups" class="controlStack"></div>
+      </section>
+
+      <section class="actions panelCard">
+        <div class="panelHeader">
+          <h2>Acciones</h2>
+          <p>Genera preview o exporta la base actual.</p>
+        </div>
+        <label class="inline">
+          <input id="showLampPreviewInput" type="checkbox" checked>
+          <span>Mostrar cabezal confirmado</span>
+        </label>
+        <label class="inline">
+          <input id="showFitGuideInput" type="checkbox" checked>
+          <span>Mostrar guía de encastre</span>
+        </label>
+        <div class="actionGrid">
+          <button id="refreshBasePreviewBtn" type="button">Actualizar preview</button>
+          <button id="exportBaseBtn" type="button" class="primary">Exportar base STL</button>
+        </div>
+        <p id="baseStatusLine" class="status">Esperando modelo...</p>
+      </section>
+    </aside>
+
+    <main class="viewport">
+      <section class="topControls">
+        <div class="topControlsHeader">
+          <h2>Preview ensamblado</h2>
+          <p>La preview muestra el cabezal confirmado montado sobre la base para revisar proporción y encastre.</p>
+        </div>
+      </section>
+
+      <div class="canvasWrap">
+        <canvas id="baseViewportCanvas"></canvas>
+        <div class="hud" id="baseMeshStats"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/base-studio.js?v=7"></script>
+</body>
+</html>

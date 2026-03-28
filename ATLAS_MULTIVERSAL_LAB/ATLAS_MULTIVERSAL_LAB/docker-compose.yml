@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  # Servidor Backend (FastAPI)
+  atlas_api:
+    build: ./backend
+    container_name: atlas_api_dev
+    ports:
+      - "8000:8000"
+    volumes:
+      # MAPEAMOS LA CARPETA LOCAL -> CONTENEDOR (CAMBIO EN VIVO)
+      - ./backend:/app
+    environment:
+      - MODE=development
+
+  # Servidor Frontend (Nginx o Python simple para pruebas)
+  # Para que sea más ligero y no necesitemos config extra de Nginx:
+  atlas_web:
+    image: python:3.10-slim
+    container_name: atlas_web_dev
+    working_dir: /web
+    ports:
+      - "5500:5500"
+    volumes:
+      - .:/web
+    command: python3 -m http.server 5500 --bind 0.0.0.0

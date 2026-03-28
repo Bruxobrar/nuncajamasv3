@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATLAS MULTIVERSAL | Lab Console</title>
+    <link rel="stylesheet" href="css/joui.css?v=4">
+</head>
+<body>
+  <div class="shell">
+    <aside class="controls">
+      <div class="brand">
+        <p class="eyebrow">LAB_OP_01</p>
+        <h1>ATLAS MULTIVERSAL</h1>
+        <p class="subtle">Generador paramétrico de lámparas 3D.</p>
+        <button id="goPortalBtn" class="portalBtn" type="button">Volver al Portal</button>
+      </div>
+
+      <section class="toolbar panelCard">
+        <div class="panelHeader">
+          <h2>Setup</h2>
+          <p>Elegi una base y despues ajusta parametros.</p>
+        </div>
+        <label>
+          <span>Generation Engine</span>
+          <select id="engineSelect"></select>
+        </label>
+        <label>
+          <span>Preset</span>
+          <select id="presetSelect"></select>
+        </label>
+        <label id="targetTrianglesRow">
+          <span>Target triangles</span>
+          <input id="targetTrianglesInput" type="number" min="1000" step="1000" value="120000">
+        </label>
+        <button id="generateBaseBtn" type="button">Generate Base</button>
+        <label id="modeRow">
+          <span>Mode</span>
+          <select id="modeSelect">
+            <option value="solid">solid</option>
+            <option value="perforated">perforated</option>
+          </select>
+        </label>
+        <label id="closeTopRow" class="inline">
+          <input type="checkbox" id="closeTopInput">
+          <span>Close top</span>
+        </label>
+        <label id="domeModeRow">
+          <span>Dome mode</span>
+          <select id="domeModeSelect">
+            <option value="solid">solid</option>
+            <option value="perforated">perforated</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="panelCard basePanel" id="basePanel">
+        <div class="panelHeader">
+          <h2>Base + Porta lámpara</h2>
+          <p>Lee la boca del modelo y propone familias de base compatibles.</p>
+        </div>
+        <p id="baseInterfaceLine" class="status">Interface: (calculando...)</p>
+        <p id="baseFootprintLine" class="subtle"></p>
+        <label>
+          <span>Tipo de base</span>
+          <select id="baseFamilySelect" disabled></select>
+        </label>
+        <label>
+          <span>Variante</span>
+          <select id="baseSelect" disabled></select>
+        </label>
+        <button id="applyBaseBtn" type="button" disabled>Aplicar al modelo</button>
+        <button id="confirmBaseFlowBtn" type="button">Confirmar modelo y editar base</button>
+        <p id="baseNotes" class="subtle"></p>
+      </section>
+
+      <section class="actions panelCard">
+        <div class="panelHeader">
+          <h2>Actions</h2>
+          <p>Importa, resetea o exporta el modelo actual.</p>
+        </div>
+        <div class="actionGrid">
+          <button id="resetBtn" type="button">Reset</button>
+          <button id="importBtn" type="button">Import STL / 3MF</button>
+          <button id="exportBtn" type="button" class="primary">Export STL</button>
+        </div>
+        <p id="statusLine" class="status">Loading...</p>
+        <input type="file" id="importFileInput" accept=".stl,.3mf,model/stl,application/sla,application/vnd.ms-package.3dmanufacturing-3dmodel+xml" hidden>
+      </section>
+    </aside>
+
+    <main class="viewport">
+      <section class="topControls">
+        <div class="topControlsHeader">
+          <h2>Parameters</h2>
+          <p>Abrí un grupo y ajustá el modelo sin perder de vista el render.</p>
+        </div>
+        <div id="controlGroups" class="controlDock"></div>
+      </section>
+
+      <div class="canvasWrap">
+        <canvas id="viewportCanvas"></canvas>
+        <div class="hud" id="meshStats"></div>
+      </div>
+
+      <section class="exports">
+        <div class="exportsHeader">
+          <h2>Exports</h2>
+          <button id="refreshExportsBtn" type="button">Refresh</button>
+        </div>
+        <div id="exportList" class="exportList"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/joui.js?v=7"></script>
+  <script>
+    document.getElementById('goPortalBtn')?.addEventListener('click', function() {
+      window.location.href = '/portal';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+.baseShell .controls {
+  gap: 16px;
+}
+
+#baseControlGroups {
+  max-height: calc(100vh - 360px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.modelMeta {
+  display: grid;
+  gap: 8px;
+}
+
+.baseShell .canvasWrap {
+  padding-top: 12px;
+}
+
+#baseViewportCanvas {
+  width: 100%;
+  height: calc(100vh - 120px);
+}
+
+@media (max-width: 980px) {
+  #baseControlGroups {
+    max-height: none;
+    overflow: visible;
+  }
+
+  #baseViewportCanvas {
+    height: 56vh;
+  }
+}

@@ -1,0 +1,15 @@
+--- ATLAS MULTIVERSAL | GUIA DE VISUALIZACION ---
+
+Este es el portal de diseño y marketing de Atlas Multiversal v2.2 (Look Editorial).
+
+COMO VER EL PROYECTO:
+
+1. Asegúrense de tener instalada la extensión 'Live Server' en VS Code (es la de Ritwick Dey).
+2. Abran la carpeta 'portal' en VS Code.
+3. Hagan clic derecho sobre el archivo 'index.html' -> Seleccionen 'Open with Live Server'.
+4. La web se abrirá automáticamente en su navegador con todos los efectos y animaciones de lujo.
+
+NOTA PARA EL EQUIPO:
+Este es el frente de ventas y marketing. El Laboratorio (Dashboard) y el Motor de Cálculo (Backend) se encuentran en las otras carpetas para uso interno de ingeniería.
+
+--- FIN DE INSTRUCCIONES ---

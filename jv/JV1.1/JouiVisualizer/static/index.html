@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JouiVisualizer</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="controls">
+      <div class="brand">
+        <p class="eyebrow">PB6 Live Engine</p>
+        <h1>JouiVisualizer</h1>
+        <p class="subtle">Preview, import y export en una sola vista.</p>
+      </div>
+
+      <section class="toolbar panelCard">
+        <div class="panelHeader">
+          <h2>Setup</h2>
+          <p>Elegi una base y despues ajusta parametros.</p>
+        </div>
+        <label>
+          <span>Preset</span>
+          <select id="presetSelect"></select>
+        </label>
+        <button id="generateBaseBtn" type="button">Generate Base</button>
+        <label>
+          <span>Mode</span>
+          <select id="modeSelect">
+            <option value="solid">solid</option>
+            <option value="perforated">perforated</option>
+          </select>
+        </label>
+        <label class="inline">
+          <input type="checkbox" id="closeTopInput">
+          <span>Close top</span>
+        </label>
+        <label>
+          <span>Dome mode</span>
+          <select id="domeModeSelect">
+            <option value="solid">solid</option>
+            <option value="perforated">perforated</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="actions panelCard">
+        <div class="panelHeader">
+          <h2>Actions</h2>
+          <p>Importa, resetea o exporta el modelo actual.</p>
+        </div>
+        <div class="actionGrid">
+          <button id="resetBtn" type="button">Reset</button>
+          <button id="importBtn" type="button">Import STL / 3MF</button>
+          <button id="exportBtn" type="button" class="primary">Export STL</button>
+        </div>
+        <p id="statusLine" class="status">Loading...</p>
+        <input type="file" id="importFileInput" accept=".stl,.3mf,model/stl,application/sla,application/vnd.ms-package.3dmanufacturing-3dmodel+xml" hidden>
+      </section>
+    </aside>
+
+    <main class="viewport">
+      <section class="topControls">
+        <div class="topControlsHeader">
+          <h2>Parameters</h2>
+          <p>Abrí un grupo y ajustá el modelo sin perder de vista el render.</p>
+        </div>
+        <div id="controlGroups" class="controlDock"></div>
+      </section>
+
+      <div class="canvasWrap">
+        <canvas id="viewportCanvas"></canvas>
+        <div class="hud" id="meshStats"></div>
+      </div>
+
+      <section class="exports">
+        <div class="exportsHeader">
+          <h2>Exports</h2>
+          <button id="refreshExportsBtn" type="button">Refresh</button>
+        </div>
+        <div id="exportList" class="exportList"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

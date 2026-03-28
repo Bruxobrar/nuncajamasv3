@@ -1,0 +1,332 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;400;600&display=swap');
+
+:root {
+    --bg-color: #000000;
+    --accent: #ffaa00;
+    --text: #ffffff;
+    --subtle: #777777;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* --- NAVEGACIÓN --- */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 40px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+    backdrop-filter: blur(5px);
+}
+
+.logo {
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--text);
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 50px;
+}
+
+nav ul li a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 400;
+    transition: opacity 0.3s;
+}
+
+nav ul li a:hover {
+    opacity: 0.6;
+}
+
+/* --- HERO SECTION --- */
+#hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 10%;
+}
+
+.pre-title {
+    font-size: 0.7rem;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 10vw, 9rem);
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 30px;
+}
+
+.hero-tagline {
+    font-size: 1.1rem;
+    font-weight: 200;
+    color: var(--subtle);
+    max-width: 500px;
+    margin-bottom: 60px;
+}
+
+/* --- BOTONES --- */
+.cta-button {
+    padding: 20px 50px;
+    border: 1px solid var(--text);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.cta-button:hover {
+    background: var(--text);
+    color: var(--bg-color);
+}
+
+/* --- SECCIONES EDITORIALES --- */
+.section {
+    padding: 150px 8%;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.image-container {
+    width: 100%;
+    aspect-ratio: 4/5;
+    background: #0a0a0a;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
+.label {
+    font-size: 0.65rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    display: block;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 35px;
+}
+
+p.description {
+    font-size: 1.05rem;
+    font-weight: 200;
+    color: var(--subtle);
+    max-width: 400px;
+}
+
+/* --- PASOS DEL PROCESO --- */
+.process-step {
+    padding: 30px;
+    border-left: 1px solid rgba(255,170,0,0.2);
+    transition: transform 0.4s;
+}
+
+.process-step:hover {
+    transform: translateY(-5px);
+    border-left-color: var(--accent);
+}
+
+.step-num {
+    font-family: 'Courier New', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 20px;
+}
+
+.process-step h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+
+/* --- ANIMACIONES DE ENTRADA --- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section {
+    animation: fadeInUp 1.2s ease forwards;
+}
+
+/* --- FORMULARIO MINIMALISTA --- */
+.minimal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.minimal-form input, .minimal-form textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 15px 0;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.minimal-form input:focus, .minimal-form textarea:focus {
+    border-bottom-color: var(--accent);
+}
+
+.minimal-form textarea {
+    resize: none;
+}
+
+/* --- FOOTER COMPLETO --- */
+footer {
+    padding: 100px 8%;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 50px;
+    background: #000;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-col a {
+    color: var(--subtle);
+    text-decoration: none;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+    transition: 0.3s;
+}
+
+.footer-col a:hover {
+    color: var(--accent);
+}
+
+.footer-col p {
+    font-size: 0.8rem;
+    color: var(--subtle);
+    line-height: 1.8;
+}
+
+.img-label {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.6rem;
+    color: rgba(255,170,0,0.4);
+    letter-spacing: 2px;
+}
+
+/* --- MODAL DE LOGIN --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.modal-content {
+    background-color: #111;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid var(--accent);
+    width: 80%;
+    max-width: 400px;
+    border-radius: 8px;
+}
+
+.close {
+    color: var(--text);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: var(--accent);
+}
+
+.modal h2 {
+    margin-bottom: 20px;
+    color: var(--accent);
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal input {
+    padding: 10px;
+    background: #222;
+    border: 1px solid #444;
+    color: var(--text);
+    border-radius: 4px;
+}
+
+.modal button {
+    padding: 10px;
+    background: var(--accent);
+    border: none;
+    color: #000;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 600;
+}
+

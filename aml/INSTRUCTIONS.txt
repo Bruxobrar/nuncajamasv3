@@ -1,0 +1,22 @@
+--- ATLAS MULTIVERSAL | GUÍA DE VISUALIZACIÓN ---
+
+Este es el portal editorial de Atlas Multiversal.
+
+CÓMO VER EL PROYECTO (RECOMENDADO):
+
+1) Levantá la API (sirve portal + dashboard + endpoints):
+   - PowerShell: `powershell -ExecutionPolicy Bypass -File .\apps\api\run.ps1`
+   - cmd: `apps\api\run.bat`
+
+2) Abrí: `http://127.0.0.1:8000/` (redirige a `/portal/`).
+
+ALTERNATIVA (solo estáticos):
+
+- Abrí `apps/portal/index.html` con Live Server (VS Code). Esto no incluye login ni llamadas a la API.
+
+NOTA PARA EL EQUIPO:
+- `apps/portal/` = frente de ventas/marketing
+- `apps/dashboard/` = laboratorio (UI técnica)
+- `apps/api/` = motor de cálculo + export (`.stl`/`.3mf`) + auth
+
+--- FIN DE INSTRUCCIONES ---

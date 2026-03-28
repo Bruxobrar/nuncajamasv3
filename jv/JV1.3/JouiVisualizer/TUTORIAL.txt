@@ -1,0 +1,191 @@
+JouiVisualizer - Tutorial rapido
+================================
+
+1. Que es
+---------
+
+JouiVisualizer es una app local para:
+
+- generar previews de modelos usando el motor de lampgen/pb6.py
+- ajustar parametros con sliders e inputs numericos
+- importar STL o 3MF para inspeccion visual
+- exportar STL generado
+
+
+2. Como arrancarlo
+------------------
+
+Abrir una terminal en:
+
+  C:\nuncajamas\JouiVisualizer
+
+Ejecutar:
+
+  python server.py
+
+Cuando levanta bien, vas a ver algo parecido a:
+
+  JouiVisualizer running at http://127.0.0.1:8765
+
+Despues abrir en el navegador:
+
+  http://127.0.0.1:8765
+
+
+3. Flujo basico de uso
+---------------------
+
+En la barra lateral izquierda:
+
+- Preset:
+  carga una base de parametros
+
+- Generate Base:
+  elige una base automaticamente desde los presets disponibles
+
+- Mode:
+  cambia entre solid y perforated
+
+- Close top:
+  cierra la parte superior cuando aplica
+
+- Dome mode:
+  define el tipo de cierre superior
+
+Abajo del encabezado del visualizador:
+
+- Parameters:
+  ahi estan los grupos de sliders desplegables
+
+Cada grupo contiene:
+
+- slider
+- caja numerica
+- tooltip con explicacion al pasar el mouse sobre el nombre o el signo "?"
+
+
+4. Como editar parametros
+------------------------
+
+Hay 2 maneras:
+
+- arrastrando el slider
+- escribiendo el valor a mano en la caja numerica
+
+Importante:
+
+- el slider respeta un rango visual
+- la caja numerica acepta valores escritos manualmente aunque queden fuera de ese rango
+- si escribis un numero extremo, el modelo intenta usarlo igual
+
+
+5. Como mover la vista
+---------------------
+
+Dentro del canvas:
+
+- click y arrastrar:
+  rota la camara
+
+- rueda del mouse:
+  zoom in / zoom out
+
+La vista esta configurada en modo ortografico para que el modelo no se deforme tanto al analizarlo.
+
+
+6. Importar un archivo
+---------------------
+
+Boton:
+
+  Import STL / 3MF
+
+Formatos soportados:
+
+- .stl
+- .3mf
+
+Que pasa al importar:
+
+- el archivo se muestra en el visor
+- sirve para inspeccion visual
+- los sliders siguen controlando el preview generado por PB6 cuando los moves
+
+
+7. Exportar un STL
+-----------------
+
+Boton:
+
+  Export STL
+
+Que hace:
+
+- genera un STL usando los parametros actuales
+- guarda el archivo en:
+
+  C:\nuncajamas\JouiVisualizer\exports
+
+Tambien aparece listado en la seccion Exports dentro de la app.
+
+
+8. Donde tocar cada cosa
+------------------------
+
+Archivos principales:
+
+- C:\nuncajamas\JouiVisualizer\server.py
+  backend HTTP local, presets, import/export, config
+
+- C:\nuncajamas\JouiVisualizer\static\index.html
+  estructura de la interfaz
+
+- C:\nuncajamas\JouiVisualizer\static\app.js
+  interaccion, sliders, render, import, preview
+
+- C:\nuncajamas\JouiVisualizer\static\style.css
+  estilos visuales
+
+- C:\nuncajamas\lampgen\pb6.py
+  motor geometrico de generacion
+
+
+9. Problemas comunes
+--------------------
+
+La pagina no actualiza cambios:
+
+- hacer Ctrl+F5
+- cerrar y reabrir el navegador
+
+No aparecen sliders:
+
+- recargar fuerte la pagina
+- verificar que server.py este corriendo
+
+El preview tarda:
+
+- bajar n_theta
+- bajar n_z
+- bajar rib_seg_per_pitch
+
+La pieza se rompe con valores extremos:
+
+- volver a un preset base
+- resetear y ajustar de nuevo desde un valor mas razonable
+
+Import no funciona:
+
+- revisar que el archivo sea STL o 3MF valido
+
+
+10. Cierre rapido
+-----------------
+
+Para detener la app en la terminal:
+
+  Ctrl+C
+
+Tutorial creado para uso local dentro de:
+
+  C:\nuncajamas\JouiVisualizer

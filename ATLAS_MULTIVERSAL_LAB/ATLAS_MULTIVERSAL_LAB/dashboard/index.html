@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATLAS MULTIVERSAL | Lab Console</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    
+    <div class="dashboard-container">
+        <!-- Sidebar de Control -->
+        <aside class="control-panel">
+            <div class="panel-header">
+                <span class="lab-id">LAB_OP_01</span>
+                <h2>Configurador<br>Paramétrico</h2>
+            </div>
+
+            <div class="control-group">
+                <label>Escala del Sistema (Radio)</label>
+                <input type="range" min="10" max="100" value="50" class="slider" id="radius">
+                <div class="value-display" id="radius-val">50mm</div>
+            </div>
+
+            <div class="control-group">
+                <label>Complejidad (Facetas)</label>
+                <input type="range" min="3" max="64" value="32" class="slider" id="segments">
+                <div class="value-display" id="segments-val">32 faces</div>
+            </div>
+
+            <div class="control-group">
+                <label>Torsión (Twist)</label>
+                <input type="range" min="0" max="360" value="0" class="slider" id="twist">
+                <div class="value-display" id="twist-val">0°</div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-primary" id="generate">GENERAR_STL</button>
+                <button class="btn-secondary">REPETIR_EXP</button>
+            </div>
+
+            <div class="telemetry-log" id="log">
+                > System initialized...<br>
+                > Engine: Python_FastAPI v3.1<br>
+                > Ready for generation...
+            </div>
+        </aside>
+
+        <!-- Visor 3D Principal -->
+        <main class="viewer-3d" id="canvas-container">
+            <div class="viewer-overlay">
+                <div class="coord-system">X: 0.00 Y: 0.00 Z: 1.00</div>
+                <div class="model-info">MODEL: LAMP_EXP_V1</div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

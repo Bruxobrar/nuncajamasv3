@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasapalabra Host Console</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0b1020;
+            --panel: #121a2f;
+            --panel2: #1a2440;
+            --text: #eef3ff;
+            --muted: #9fb0d9;
+            --accent: #69b7ff;
+            --blue: #2c6fff;
+            --green: #1fc77e;
+            --yellow: #f4c542;
+            --red: #ff5d6c;
+            --ring: #233153;
+            --ring2: #334574;
+            --shadow: #08101e;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            gap: 24px;
+            padding: 24px;
+        }
+
+        .left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .right {
+            width: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            overflow-y: auto;
+        }
+
+        .right::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .right::-webkit-scrollbar-track {
+            background: var(--panel);
+            border-radius: 4px;
+        }
+
+        .right::-webkit-scrollbar-thumb {
+            background: var(--ring2);
+            border-radius: 4px;
+        }
+
+        .header {
+            padding: 20px 28px;
+            background-color: var(--bg);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .panel {
+            background-color: var(--panel);
+            border-radius: 8px;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .panel-title {
+            padding: 16px 18px;
+            font-size: 16px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--ring);
+        }
+
+        .panel-content {
+            padding: 18px;
+        }
+
+        .mode-indicator {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding: 8px 0;
+        }
+
+        .mode-indicator.paused {
+            color: var(--accent);
+        }
+
+        .mode-indicator.running {
+            color: var(--green);
+        }
+
+        .mode-indicator.finished {
+            color: var(--red);
+        }
+
+        .mode-indicator.comparing {
+            color: var(--yellow);
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .info-card {
+            background-color: var(--panel2);
+            border-radius: 6px;
+            padding: 14px;
+        }
+
+        .info-card-label {
+            font-size: 10px;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+
+        .info-card-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 14px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #fff;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-green {
+            background-color: var(--green);
+            color: #fff;
+        }
+
+        .btn-yellow {
+            background-color: var(--yellow);
+            color: #202020;
+        }
+
+        .btn-red {
+            background-color: var(--red);
+            color: #fff;
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+            color: #fff;
+        }
+
+        .btn-ring {
+            background-color: var(--ring2);
+            color: #fff;
+        }
+
+        .btn-gray {
+            background-color: #5f6b87;
+            color: #fff;
+        }
+
+        .score-card {
+            background-color: var(--panel2);
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .score-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .score-card-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .score-card-time {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .score-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .score-stat {
+            background-color: var(--panel);
+            border-radius: 4px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .score-stat-icon {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .score-stat-value {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .config-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-label {
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        .form-input,
+        .form-number {
+            background-color: var(--panel2);
+            border: 1px solid var(--ring);
+            color: var(--text);
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: inherit;
+        }
+
+        .form-input:focus,
+        .form-number:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(105, 183, 255, 0.2);
+        }
+
+        canvas {
+            flex: 1;
+            background-color: var(--bg);
+            border-radius: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .right {
+                width: 100%;
+                max-height: 300px;
+            }
+
+            canvas {
+                max-height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 12px;
+                gap: 12px;
+            }
+
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 12px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .right {
+                max-height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="header">
+                <h1>Pasapalabra Host Console</h1>
+                <p>Tablero de control del evento</p>
+            </div>
+            <canvas id="canvas"></canvas>
+        </div>
+
+        <div class="right">
+            <!-- Estado -->
+            <div class="panel">
+                <div class="panel-title">Estado</div>
+                <div class="panel-content">
+                    <div id="modeIndicator" class="mode-indicator paused">Pausa</div>
+                    <div class="status-grid">
+                        <div class="info-card">
+                            <div class="info-card-label">Turno real</div>
+                            <div class="info-card-value" id="turnLabel">Jugador 1</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-label">Rosco visible</div>
+                            <div class="info-card-value" id="viewLabel">Jugador 1</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-label">Tiempo</div>
+                            <div class="info-card-value" id="timeLabel">01:30</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-label">Letra actual</div>
+                            <div class="info-card-value" id="letterLabel">A</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Acciones -->
+            <div class="panel">
+                <div class="panel-title">Acciones del host</div>
+                <div class="panel-content">
+                    <div class="controls-grid">
+                        <button class="btn btn-green" id="btnCorrect">✅ Correcta</button>
+                        <button class="btn btn-yellow" id="btnPass">⏭ Pasapalabra</button>
+                        <button class="btn btn-red" id="btnWrong">❌ Incorrecta</button>
+                        <button class="btn btn-accent" id="btnStart">▶ Reanudar</button>
+                        <button class="btn btn-ring" id="btnCompare">⇄ Cambiar vista</button>
+                        <button class="btn btn-gray" id="btnReset">↺ Reset partida</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Puntaje -->
+            <div class="panel">
+                <div class="panel-title">Puntaje comparado</div>
+                <div class="panel-content">
+                    <div id="scoreContainer"></div>
+                </div>
+            </div>
+
+            <!-- Configuración -->
+            <div class="panel">
+                <div class="panel-title">Configuración</div>
+                <div class="panel-content">
+                    <form class="config-form" id="configForm">
+                        <div class="form-group">
+                            <label class="form-label">Nombre J1</label>
+                            <input type="text" class="form-input" id="player1Name" value="Jugador 1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nombre J2</label>
+                            <input type="text" class="form-input" id="player2Name" value="Jugador 2">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tiempo total (s)</label>
+                            <input type="number" class="form-number" id="totalTime" value="90" min="30" max="600">
+                        </div>
+                        <button type="submit" class="btn btn-accent" style="margin-top: 8px;">Aplicar y resetear</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';  // Rutas relativas funcionan mejor
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let gameState = null;
+        let timerInterval = null;
+        let blinkInterval = null;
+        let blinkOn = true;
+
+        // Configurar canvas responsivo
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            if (gameState) draw();
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Funciones auxiliares
+        function formatTime(seconds) {
+            seconds = Math.max(0, Math.floor(seconds));
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        async function fetchState() {
+            try {
+                const response = await fetch(`${API_BASE}/state`);
+                gameState = await response.json();
+                updateUI();
+            } catch (error) {
+                console.error('Error fetching state:', error);
+            }
+        }
+
+        async function apiCall(endpoint, method = 'POST', data = null) {
+            try {
+                const options = {
+                    method,
+                    headers: { 'Content-Type': 'application/json' }
+                };
+                if (data) options.body = JSON.stringify(data);
+                const response = await fetch(`${API_BASE}${endpoint}`, options);
+                gameState = await response.json();
+                updateUI();
+            } catch (error) {
+                console.error(`Error calling ${endpoint}:`, error);
+            }
+        }
+
+        function updateUI() {
+            if (!gameState) return;
+
+            // Actualizar modo
+            const modeEl = document.getElementById('modeIndicator');
+            if (gameState.finished) {
+                modeEl.textContent = 'Partida finalizada';
+                modeEl.className = 'mode-indicator finished';
+            } else if (gameState.running) {
+                modeEl.textContent = 'En juego';
+                modeEl.className = 'mode-indicator running';
+            } else if (gameState.compare_view) {
+                modeEl.textContent = 'Consulta comparativa';
+                modeEl.className = 'mode-indicator comparing';
+            } else {
+                modeEl.textContent = 'Pausa';
+                modeEl.className = 'mode-indicator paused';
+            }
+
+            // Actualizar estado
+            document.getElementById('turnLabel').textContent = gameState.players[gameState.active_player].name;
+            document.getElementById('viewLabel').textContent = gameState.players[gameState.shown_player].name;
+            document.getElementById('timeLabel').textContent = formatTime(gameState.players[gameState.active_player].time_left);
+            
+            const letter = gameState.players[gameState.active_player].current_index >= 0 
+                ? gameState.letters[gameState.players[gameState.active_player].current_index]
+                : '—';
+            document.getElementById('letterLabel').textContent = letter;
+
+            // Actualizar botones
+            const btnStart = document.getElementById('btnStart');
+            const btnCorrect = document.getElementById('btnCorrect');
+            const btnPass = document.getElementById('btnPass');
+            const btnWrong = document.getElementById('btnWrong');
+            const btnCompare = document.getElementById('btnCompare');
+
+            btnStart.disabled = gameState.running;
+            btnCorrect.disabled = !gameState.running;
+            btnPass.disabled = !gameState.running;
+            btnWrong.disabled = !gameState.running;
+            btnCompare.disabled = gameState.running || gameState.finished;
+
+            // Actualizar puntajes
+            updateScorePanel();
+
+            // Redibujar
+            draw();
+        }
+
+        function updateScorePanel() {
+            const container = document.getElementById('scoreContainer');
+            container.innerHTML = gameState.players.map((p, idx) => {
+                const score = p.score;
+                return `
+                    <div class="score-card">
+                        <div class="score-card-header">
+                            <div class="score-card-name">${p.name}</div>
+                            <div class="score-card-time">${formatTime(p.time_left)}</div>
+                        </div>
+                        <div class="score-stats">
+                            <div class="score-stat">
+                                <div class="score-stat-icon" style="color: var(--green);">✔</div>
+                                <div class="score-stat-value">${score.green}</div>
+                            </div>
+                            <div class="score-stat">
+                                <div class="score-stat-icon" style="color: var(--yellow);">↺</div>
+                                <div class="score-stat-value">${score.yellow}</div>
+                            </div>
+                            <div class="score-stat">
+                                <div class="score-stat-icon" style="color: var(--red);">✖</div>
+                                <div class="score-stat-value">${score.red}</div>
+                            </div>
+                            <div class="score-stat">
+                                <div class="score-stat-icon" style="color: var(--blue);">•</div>
+                                <div class="score-stat-value">${score.blue}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function draw() {
+            const w = canvas.width;
+            const h = canvas.height;
+            const cx = w / 2;
+            const cy = h / 2;
+
+            const outer_r = Math.min(w, h) * 0.38;
+            const bubble_r = Math.max(24, Math.round(outer_r * 0.11));
+            const inner_r = outer_r * 0.68;
+
+            // Limpiar
+            ctx.fillStyle = getColor('bg');
+            ctx.fillRect(0, 0, w, h);
+
+            // Sombra
+            ctx.fillStyle = getColor('shadow');
+            ctx.beginPath();
+            ctx.arc(cx, cy, outer_r + 26, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = getColor('ring');
+            ctx.beginPath();
+            ctx.arc(cx, cy, outer_r + 20, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Anillo exterior
+            ctx.fillStyle = getColor('panel');
+            ctx.beginPath();
+            ctx.arc(cx, cy, outer_r, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = getColor('ring2');
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // Anillo interior
+            ctx.fillStyle = getColor('bg');
+            ctx.beginPath();
+            ctx.arc(cx, cy, inner_r, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = getColor('ring2');
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Letras
+            const shown = gameState.players[gameState.shown_player];
+            const active = gameState.players[gameState.active_player];
+
+            gameState.letters.forEach((letter, i) => {
+                const angle = -Math.PI / 2 + (2 * Math.PI * i / gameState.letters.length);
+                const x = cx + Math.cos(angle) * outer_r;
+                const y = cy + Math.sin(angle) * outer_r;
+
+                const stateColor = getStateColor(shown.states[i]);
+                const isActive = gameState.running && gameState.shown_player === gameState.active_player && active.current_index === i && blinkOn;
+                const fillColor = isActive ? '#ffffff' : stateColor;
+                const textColor = isActive ? getColor('bg') : '#ffffff';
+
+                // Sombra burbuja
+                ctx.fillStyle = getColor('shadow');
+                ctx.beginPath();
+                ctx.arc(x, y, bubble_r + 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Burbuja
+                ctx.fillStyle = fillColor;
+                ctx.beginPath();
+                ctx.arc(x, y, bubble_r, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Texto
+                ctx.fillStyle = textColor;
+                ctx.font = `${Math.max(12, Math.round(bubble_r * 0.58))}px 'Segoe UI', sans-serif`;
+                ctx.fontWeight = '600';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(letter, x, y);
+            });
+
+            // Centro
+            const centerFill = gameState.running ? getColor('panel2') : getColor('panel');
+            ctx.fillStyle = centerFill;
+            ctx.beginPath();
+            ctx.arc(cx, cy, inner_r - 18, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = getColor('ring2');
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Texto central
+            const title = gameState.players[gameState.shown_player].name;
+            const subtitle = gameState.finished 
+                ? 'Partida finalizada'
+                : gameState.shown_player === gameState.active_player 
+                    ? 'Rosco en juego'
+                    : 'Vista comparativa';
+
+            ctx.fillStyle = getColor('text');
+            ctx.font = 'bold 24px "Segoe UI", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(title, cx, cy - 74);
+
+            ctx.fillStyle = getColor('muted');
+            ctx.font = '13px "Segoe UI", sans-serif';
+            ctx.fillText(subtitle, cx, cy - 38);
+
+            ctx.fillStyle = getColor('accent');
+            ctx.font = 'bold 42px "Consolas", monospace';
+            ctx.fillText(formatTime(gameState.players[gameState.shown_player].time_left), cx, cy + 16);
+
+            const idx = gameState.players[gameState.active_player].current_index;
+            const currentLetter = idx >= 0 ? gameState.letters[idx] : '—';
+            const currentState = idx >= 0 ? {
+                "blue": "Pendiente",
+                "green": "Correcta",
+                "yellow": "Pasapalabra",
+                "red": "Incorrecta"
+            }[gameState.players[gameState.active_player].states[idx]] : "Sin pendientes";
+
+            ctx.fillStyle = getColor('text');
+            ctx.font = 'bold 16px "Segoe UI", sans-serif';
+            ctx.fillText(`Letra actual: ${currentLetter}`, cx, cy + 76);
+
+            ctx.fillStyle = getColor('muted');
+            ctx.font = '12px "Segoe UI", sans-serif';
+            ctx.fillText(currentState, cx, cy + 106);
+        }
+
+        function getColor(name) {
+            const colors = {
+                bg: '#0b1020',
+                panel: '#121a2f',
+                panel2: '#1a2440',
+                text: '#eef3ff',
+                muted: '#9fb0d9',
+                accent: '#69b7ff',
+                blue: '#2c6fff',
+                green: '#1fc77e',
+                yellow: '#f4c542',
+                red: '#ff5d6c',
+                ring: '#233153',
+                ring2: '#334574',
+                shadow: '#08101e',
+            };
+            return colors[name] || '#000000';
+        }
+
+        function getStateColor(state) {
+            const colors = {
+                blue: '#2c6fff',
+                green: '#1fc77e',
+                yellow: '#f4c542',
+                red: '#ff5d6c',
+            };
+            return colors[state] || '#2c6fff';
+        }
+
+        // Event listeners
+        document.getElementById('btnCorrect').addEventListener('click', () => apiCall('/mark-letter', 'POST', { state: 'green' }));
+        document.getElementById('btnPass').addEventListener('click', () => apiCall('/mark-letter', 'POST', { state: 'yellow' }));
+        document.getElementById('btnWrong').addEventListener('click', () => apiCall('/mark-letter', 'POST', { state: 'red' }));
+        document.getElementById('btnStart').addEventListener('click', () => apiCall('/start-resume'));
+        document.getElementById('btnCompare').addEventListener('click', () => apiCall('/toggle-compare'));
+        document.getElementById('btnReset').addEventListener('click', () => apiCall('/reset'));
+
+        document.getElementById('configForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const data = {
+                player1_name: document.getElementById('player1Name').value,
+                player2_name: document.getElementById('player2Name').value,
+                total_time: parseInt(document.getElementById('totalTime').value)
+            };
+            apiCall('/config', 'POST', data);
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') { e.preventDefault(); document.getElementById('btnStart').click(); }
+            if (e.key === 'v' || e.key === 'V') document.getElementById('btnCorrect').click();
+            if (e.key === 'a' || e.key === 'A') document.getElementById('btnPass').click();
+            if (e.key === 'r' || e.key === 'R') document.getElementById('btnWrong').click();
+            if (e.key === 'c' || e.key === 'C') document.getElementById('btnCompare').click();
+            if (e.key === 'Escape') document.getElementById('btnReset').click();
+        });
+
+        // Timer loop
+        function timerLoop() {
+            if (gameState && gameState.running) {
+                apiCall('/timer-tick');
+            }
+        }
+
+        // Blink loop
+        function blinkLoop() {
+            blinkOn = !blinkOn;
+            if (gameState) draw();
+        }
+
+        // Inicializar
+        fetchState();
+        timerInterval = setInterval(timerLoop, 1000);
+        blinkInterval = setInterval(blinkLoop, 350);
+    </script>
+</body>
+</html>

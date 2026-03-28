@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATLAS MULTIVERSAL | Entorno de prueba</title>
+  <link rel="stylesheet" href="css/joui.css?v=4">
+  <style>
+    .workbenchShell {
+      display: grid;
+      grid-template-columns: minmax(320px, 460px) 1fr;
+      gap: 1rem;
+      min-height: 100vh;
+      padding: 1rem;
+      background: linear-gradient(130deg, #efe5d8 0%, #d3c7bb 100%);
+      box-sizing: border-box;
+    }
+    .wbPanel {
+      background: rgba(255, 248, 239, 0.92);
+      border: 1px solid rgba(90, 66, 45, 0.2);
+      border-radius: 14px;
+      box-shadow: 0 12px 28px rgba(80, 58, 39, 0.18);
+      padding: 1rem;
+      overflow: auto;
+    }
+    .wbHeader h1 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    .wbHeader p {
+      margin: 0.4rem 0 0;
+      color: #5d4b3a;
+      font-size: 0.9rem;
+    }
+    .wbSummary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.4rem;
+      margin: 0.9rem 0;
+    }
+    .wbChip {
+      border: 1px solid rgba(90, 66, 45, 0.2);
+      border-radius: 999px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.8rem;
+      background: rgba(255, 255, 255, 0.7);
+    }
+    .wbControls {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .wbControls input,
+    .wbControls select {
+      border: 1px solid rgba(90, 66, 45, 0.25);
+      border-radius: 9px;
+      padding: 0.4rem 0.5rem;
+      background: #fff;
+      color: #3f3126;
+    }
+    .wbList {
+      display: grid;
+      gap: 0.5rem;
+    }
+    .wbCard {
+      border: 1px solid rgba(90, 66, 45, 0.2);
+      border-radius: 10px;
+      padding: 0.65rem;
+      background: rgba(255, 255, 255, 0.75);
+    }
+    .wbCardHead {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .wbCardHead strong {
+      font-size: 0.92rem;
+      color: #3f3126;
+    }
+    .wbMeta {
+      margin-top: 0.3rem;
+      font-size: 0.78rem;
+      color: #6f5a47;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    .wbStatus {
+      border-radius: 999px;
+      padding: 0.15rem 0.5rem;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .status-ready { background: #daf2dc; color: #295f2d; }
+    .status-incompatible { background: #fceac6; color: #6e4f12; }
+    .status-import_error { background: #ffd7d7; color: #7d1d1d; }
+    .status-ignored { background: #e9e7e4; color: #5d5852; }
+    .wbActions {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .wbActions button {
+      border: 1px solid rgba(90, 66, 45, 0.25);
+      background: #fff;
+      color: #3f3126;
+      border-radius: 8px;
+      padding: 0.35rem 0.55rem;
+      cursor: pointer;
+    }
+    .wbActions button.primary {
+      background: #4f3a27;
+      color: #fff;
+    }
+    .wbPreview {
+      background: rgba(255, 248, 239, 0.92);
+      border: 1px solid rgba(90, 66, 45, 0.2);
+      border-radius: 14px;
+      box-shadow: 0 12px 28px rgba(80, 58, 39, 0.18);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .wbPreviewBar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.7rem 0.9rem;
+      border-bottom: 1px solid rgba(90, 66, 45, 0.18);
+      background: rgba(245, 236, 226, 0.8);
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .wbPreview iframe {
+      width: 100%;
+      min-height: 70vh;
+      border: 0;
+      background: #fff;
+      flex: 1;
+    }
+    @media (max-width: 1024px) {
+      .workbenchShell {
+        grid-template-columns: 1fr;
+      }
+      .wbPreview iframe {
+        min-height: 58vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="workbenchShell">
+    <aside class="wbPanel">
+      <div class="wbHeader">
+        <h1>Entorno de prueba</h1>
+        <p>Inventario en vivo de modelos Python en API + acceso directo al visor del dashboard (sin login).</p>
+      </div>
+
+      <div id="wbSummary" class="wbSummary"></div>
+
+      <div class="wbControls">
+        <input id="searchInput" type="search" placeholder="Filtrar por id o archivo">
+        <select id="statusFilter">
+          <option value="all">Todos</option>
+          <option value="ready">Ready</option>
+          <option value="incompatible">Incompatible</option>
+          <option value="import_error">Import error</option>
+          <option value="ignored">Ignored</option>
+        </select>
+        <button id="refreshBtn" type="button">Refresh</button>
+      </div>
+
+      <div id="wbList" class="wbList"></div>
+    </aside>
+
+    <section class="wbPreview">
+      <div class="wbPreviewBar">
+        <div>
+          <strong id="previewTitle">Preview: (sin engine seleccionado)</strong>
+          <div id="previewSubtitle" class="wbMeta"></div>
+        </div>
+        <div class="wbActions">
+          <button id="openDashboardBtn" class="primary" type="button">Abrir dashboard completo</button>
+          <button id="openNewTabBtn" type="button">Abrir preview en pestaña</button>
+        </div>
+      </div>
+      <iframe id="previewFrame" src="about:blank" title="Dashboard preview"></iframe>
+    </section>
+  </div>
+
+  <script src="js/workbench.js?v=1"></script>
+</body>
+</html>

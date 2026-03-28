@@ -1,0 +1,135 @@
+🎮 PASAPALABRA HOST CONSOLE - GUÍA RÁPIDA DE INICIO
+
+==========================================
+  ¡BIENVENIDO!
+==========================================
+
+✅ Lo que se creó para ti:
+  ✓ Backend Python (FastAPI)
+  ✓ Frontend Web Moderno (HTML/CSS/JavaScript)
+  ✓ Scripts de inicio automático
+  ✓ Documentación completa
+
+==========================================
+  🚀 CÓMO INICIAR (Elige una opción)
+==========================================
+
+OPCIÓN 1 - MÁS FÁCIL (Haz doble clic):
+  └─ run.bat
+
+OPCIÓN 2 - PowerShell:
+  ├─ Abre PowerShell
+  └─ Ejecuta: .\run.ps1
+
+OPCIÓN 3 - Manual:
+  1. Abre cmd o PowerShell
+  2. Ve a: cd backend
+  3. Crea venv: python -m venv venv
+  4. Activa: venv\Scripts\activate
+  5. Instala: pip install -r requirements.txt
+  6. Ejecuta: python main.py
+  7. Abre el navegador: http://localhost:8000
+
+==========================================
+  ⌨️ CONTROLES PRINCIPALES
+==========================================
+
+MOUSE:
+  - Clic en botones para marcar respuestas
+  - Panel de configuración a la derecha
+
+TECLADO (Atajos rápidos):
+  ESPACIO  ➜ Reanudar/Iniciar juego
+  V        ➜ ✅ Correcta
+  A        ➜ ⏭ Pasapalabra
+  R        ➜ ❌ Incorrecta
+  C        ➜ ⇄ Cambiar vista
+  ESC      ➜ ↺ Reset
+
+==========================================
+  💡 PRIMEROS PASOS
+==========================================
+
+1. El servidor se abrirá en: http://localhost:8000
+2. Se abrirá tu navegador automáticamente
+3. Configura los nombres de los jugadores (panel derecho)
+4. Ajusta el tiempo total si necesitas
+5. Haz clic en "Aplicar y resetear"
+6. ¡A jugar! Presiona ESPACIO para empezar
+
+==========================================
+  📊 PANTALLA DURANTE EL JUEGO
+==========================================
+
+IZQUIERDA:
+  🔴 Rosco circular
+  • Letras en colores según estado
+  • Timer en el centro
+  • Nombre del jugador
+
+DERECHA:
+  📋 Estado actual del juego
+  🎮 Botones de control
+  📈 Puntajes de ambos jugadores
+  ⚙️  Configuración
+
+==========================================
+  🔴 ESTADOS DE LAS LETRAS
+==========================================
+
+🔵 AZUL     = Pendiente (sin responder)
+🟢 VERDE    = Correcta ✓
+🟡 AMARILLO = Pasapalabra (dejar para después)
+🔴 ROJO     = Incorrecta ✗
+
+==========================================
+  🎨 CARACTERÍSTICAS
+==========================================
+
+✨ Diseño oscuro elegante
+📱 Funciona en móvil, tablet y desktop
+⚡ Animaciones suaves
+🔔 Actualizaciones en tiempo real
+🎯 Muy fácil de usar
+⌨️  Completamente controlable por teclado
+🔄 API REST moderna
+
+==========================================
+  📞 AYUDA RÁPIDA
+==========================================
+
+❓ El navegador no abre:
+   → Abre manualmente: http://localhost:8000
+
+❓ Puerto 8000 en uso:
+   → Cierra otras aplicaciones
+   → O edita backend/main.py línea 209
+
+❓ Python no se encuentra:
+   → Instala Python: https://www.python.org/
+   → En Windows, marca "Add Python to PATH" durante instalación
+
+❓ ¿Dónde veo más detalles?
+   → Lee el archivo README.md (en tu misma carpeta)
+
+==========================================
+  📁 ARCHIVOS IMPORTANTES
+==========================================
+
+📄 README.md              ← Documentación completa
+🚀 run.bat               ← Abre esto para jugar (Windows)
+🚀 run.ps1               ← O esto para PlayStation (PowerShell)
+📂 backend/main.py       ← Servidor (no toques)
+📂 backend/requirements  ← Dependencias Python
+📂 frontend/index.html   ← La página web (no toques)
+
+==========================================
+  ✅ TODO LISTO
+==========================================
+
+Ya está todo instalado y listo para usar.
+Solo ejecuta run.bat y ¡A JUGAR! 🎮
+
+¿Preguntas? Revisa el README.md
+
+¡Que disfrutes del Pasapalabra! 🎉

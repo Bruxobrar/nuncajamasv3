@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+*.egg-info/
+
+# Virtualenv
+.venv/
+apps/api/.venv/
+
+# Local exports/build artifacts
+apps/api/exports/**
+!apps/api/exports/.gitkeep
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
